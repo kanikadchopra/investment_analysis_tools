@@ -1,14 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[97]:
-
 
 import pdfplumber
 import pandas as pd
-
-
-# In[98]:
 
 
 def extract_pages(file):
@@ -26,11 +21,7 @@ def extract_pages(file):
     return lines
 
 
-# In[99]:
-
-
 def extract_info(file):
-    
     pages = extract_pages(file)
     
     cdn_dfs = []
@@ -84,25 +75,18 @@ def extract_info(file):
     return d
 
 
-# ## For first time use to create the initial excel file
-
-# In[100]:
-
-
-investments_2020 = extract_info('non_registered_2020.pdf')
-rrsp_2020 = extract_info('rrsp_2020.pdf')
-investments_2020.update(rrsp_2020)
-
-
-# In[102]:
-
 
 from pandas import ExcelWriter
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 
 
 def save_xls(dict_df, path):
-    book = load_workbook(path)
+    file_exists = exists('statement_analysis.xlsx')
+    if (not file_exists):
+        book = Workbook()
+        book.remove(book.active)
+    else:
+        book = load_workbook(path)
     
     writer = ExcelWriter(path, engine='openpyxl')
     writer.book = book
@@ -116,17 +100,7 @@ def save_xls(dict_df, path):
     writer.save()
 
 
-# In[103]:
-
-
-save_xls(investments_2020, 'statement_analysis.xlsx')
-
-
-# ## After first use to add the new data or accounts onto this
-
-# In[105]:
-
-
+# After first use to add the new data or accounts onto this
 def add_data(analysis_csv, new_pdf):
     # Read in new data
     data = extract_info(new_pdf)
@@ -173,18 +147,28 @@ def add_data(analysis_csv, new_pdf):
     save_xls(d, 'statement_analysis.xlsx')
     
     
-    
     print('Yay!')
 
 
-# In[106]:
+import sys
+from os.path import exists
 
+def main():
 
-add_data('statement_analysis.xlsx', 'rrsp_2021.pdf')
+    is_first_time = not exists('statement_analysis.xlsx')
 
+    if is_first_time:
+        # For first time use to create the initial excel file
+        investments_2020 = extract_info('non_registered_2020.pdf')
+        rrsp_2020 = extract_info('rrsp_2020.pdf')
+        investments_2020.update(rrsp_2020)
 
-# In[107]:
+        save_xls(investments_2020, 'statement_analysis.xlsx')
 
+    # After first use to add the new data or accounts onto this
+    add_data('statement_analysis.xlsx', 'rrsp_2021.pdf')
+    add_data('statement_analysis.xlsx', 'non_registered_2021.pdf')
 
-add_data('statement_analysis.xlsx', 'non_registered_2021.pdf')
-
+# TODO: figure out what the point of this is
+if __name__ == "__main__":
+    main()
