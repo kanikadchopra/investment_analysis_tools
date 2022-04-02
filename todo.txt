@@ -1,0 +1,10 @@
+TO-DO:
+
+- Add the ability to pass pdfs in as arguments
+ 	- The user should be able to pass in the pdfs for one year at a time
+ 	- if it's the first year, the program will create the excel spreadsheet
+ 	- if the excel spreadsheet already exists then the new year will be added as the analysis columns will be created
+
+- Maybe some type of GUI?
+
+- support for Sunlife pension documents
