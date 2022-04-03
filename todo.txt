@@ -1,10 +1,17 @@
 TO-DO:
 
-- Add the ability to pass pdfs in as arguments
- 	- The user should be able to pass in the pdfs for one year at a time
- 	- if it's the first year, the program will create the excel spreadsheet
- 	- if the excel spreadsheet already exists then the new year will be added as the analysis columns will be created
+- support for more than 2 pdfs (if the user has more than 2 accounts)
+- help section in the terminal
+- create executable on windows so mom can run this
+- Write down instructions for how to use the program (this can go in the help section and also the read me)
 
 - Maybe some type of GUI?
 
 - support for Sunlife pension documents
+
+
+[DONE]
+- Add the ability to pass pdfs in as arguments
+ 	- The user should be able to pass in the pdfs for one year at a time
+ 	- if it's the first year, the program will create the excel spreadsheet
+ 	- if the excel spreadsheet already exists then the new year will be added as the analysis columns will be created

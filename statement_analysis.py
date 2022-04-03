@@ -153,22 +153,26 @@ def add_data(analysis_csv, new_pdf):
 import sys
 from os.path import exists
 
-def main():
+def main(argv):
+
+    non_registered_pdf = argv[1]
+    rrsp_pdf = argv[2]
 
     is_first_time = not exists('statement_analysis.xlsx')
 
     if is_first_time:
         # For first time use to create the initial excel file
-        investments_2020 = extract_info('non_registered_2020.pdf')
-        rrsp_2020 = extract_info('rrsp_2020.pdf')
-        investments_2020.update(rrsp_2020)
+        investments = extract_info(non_registered_pdf)
+        rrsp = extract_info(rrsp_pdf)
+        investments.update(rrsp)
 
-        save_xls(investments_2020, 'statement_analysis.xlsx')
+        save_xls(investments, 'statement_analysis.xlsx')
+    else:
+        add_data('statement_analysis.xlsx', non_registered_pdf)
+        add_data('statement_analysis.xlsx', rrsp_pdf)
 
-    # After first use to add the new data or accounts onto this
-    add_data('statement_analysis.xlsx', 'rrsp_2021.pdf')
-    add_data('statement_analysis.xlsx', 'non_registered_2021.pdf')
+   
 
 # TODO: figure out what the point of this is
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
